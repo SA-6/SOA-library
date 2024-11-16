@@ -9,10 +9,14 @@ from models.userinfo import UserInfo
 from models.borrow_record import BorrowRecord
 from models.return_record import ReturnRecord
 
+from apis.bookinfo import bookinfo_bp
+
 app=Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
 migrate = Migrate(app,db)
+
+app.register_blueprint(bookinfo_bp)
 
 CORS(app, resources=r'/*')
 if __name__ == '__main__':
