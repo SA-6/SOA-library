@@ -8,6 +8,11 @@ class BookinfoDao:
         return allBookinfo
     
     @staticmethod
+    def getBookinfoById(book_id):
+        book = BookInfo.query.filter(BookInfo.book_id == book_id).first()
+        return book
+
+    @staticmethod
     def addNewBookinfo(bookinfo):
         db.session.add(bookinfo)
         db.session.commit()

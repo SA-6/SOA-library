@@ -1,4 +1,4 @@
-from DAO.BookinfoDao import BookinfoDao
+from DAO.bookinfoDao import BookinfoDao
 from datetime import datetime
 from decimal import Decimal
 from models.bookinfo import BookInfo
@@ -27,6 +27,10 @@ class BookinfoService:
     def deleteBookinfo(book_id):
         return BookinfoService.bookinfoToDict(BookinfoDao.deleteBookinfo(book_id))
     
+    @staticmethod
+    def getBookinfoById(book_id):
+        return BookinfoService.bookinfoToDict(BookinfoDao.getBookinfoById(book_id))
+
     @staticmethod
     def bookinfoToDict(bookinfo):
         return {

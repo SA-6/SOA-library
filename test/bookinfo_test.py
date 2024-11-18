@@ -95,6 +95,23 @@ class TestApp(unittest.TestCase):
         assert '<data>' in response.text
         print_response(response)
 
+    # 测试通过id查询书籍信息
+    def test_get_bookinfo_by_oid(self):
+        json_headers = {'Accept': 'application/json'}
+        xml_headers = {'Accept': 'application/xml'}
+
+        # JSON 请求
+        response = requests.get('http://127.0.0.1:8080/bookinfo/10001', headers=json_headers)
+        assert response.status_code == 200
+        assert len(response.json()['data']) > 0
+        print_response(response)
+
+        # XML 请求
+        response = requests.get('http://127.0.0.1:8080/bookinfo/10001', headers=xml_headers)
+        assert response.status_code == 200
+        assert '<data>' in response.text
+        print_response(response)
+
     # 测试更新书籍信息
     def test_update_borrow_record(self):
         json_headers = {'Accept': 'application/json'}

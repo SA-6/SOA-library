@@ -18,6 +18,17 @@ def query_all():
         return CommonResponse(200,message='获取成功',data=bookinfo_list,links=links).response_to_json()
     elif 'application/xml' in accept_header:
         return CommonResponse(200,message='获取成功',data=bookinfo_list,links=links).response_to_xml()
+
+@bookinfo_bp.route('bookinfo/<int:book_id>',methods=['get'])
+def query_by_id(book_id):
+    bookinfo = BookinfoService.getBookinfoById(book_id)
+    url   = request.url
+    links = CommonResponse.create_links(rel='get',resource_name='bookinfo',request_url=url)
+    accept_header = request.headers.get('Accept', 'application/json')
+    if 'application/json' in accept_header:
+        return CommonResponse(200,message='获取成功',data=bookinfo,links=links).response_to_json()
+    elif 'application/xml' in accept_header:
+        return CommonResponse(200,message='获取成功',data=bookinfo,links=links).response_to_xml()
     
 # 新增数据部分
 @bookinfo_bp.route('bookinfo',methods=['post'])
