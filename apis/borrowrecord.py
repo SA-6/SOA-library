@@ -1,11 +1,12 @@
 # 创建蓝图
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 
 from extensions import db
 from models.borrow_record import BorrowRecord
 from utils.commonResponse import CommonResponse
 
 borrow_records_bp = Blueprint('borrow_records', __name__)
+
 
 
 # 新增一条借阅记录
@@ -39,9 +40,7 @@ def delete_borrow_record(record_id):
 @borrow_records_bp.route('/', methods=['GET'])
 def get_all_borrow_records():
     records = BorrowRecord.query.all()
-    result = [r.__dict__ for r in records]
-    for r in result:
-        del r['_sa_instance_state']
+    result = [record.to_dict() for record in records]
     return CommonResponse.success(data=result)
 
 
