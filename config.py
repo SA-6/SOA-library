@@ -1,6 +1,6 @@
 HOST_NAME = 'localhost'
 PORT = '3306'
-DATABASE = 'SOA'
+DATABASE = 'soa'
 USERNAME ='root'
 PASSWORD = 'csh0106lyx0120'
 DB_URI = f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST_NAME}:{PORT}/{DATABASE}'

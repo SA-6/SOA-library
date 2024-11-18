@@ -22,7 +22,7 @@ def query_all():
 # 新增数据部分
 @bookinfo_bp.route('bookinfo',methods=['post'])
 def add_bookinfo():
-    return_type = request.headers.get('return_type')
+    return_type = request.headers.get('Accept')
     bookinfo_dict = request.get_json()
     bookinfo = BookinfoService.addNewBookinfo(bookinfo_dict)
     url   = request.url
@@ -36,7 +36,7 @@ def add_bookinfo():
 # 修改数据部分
 @bookinfo_bp.route('bookinfo',methods=['put'])
 def update_bookinfo():
-    return_type = request.headers.get('return_type')
+    return_type = request.headers.get('Accept')
     bookinfo_dict = request.get_json()
     bookinfo = BookinfoService.updateBookinfo(bookinfo_dict)
 
@@ -50,7 +50,7 @@ def update_bookinfo():
 # 删除数据部分
 @bookinfo_bp.route('bookinfo/<book_id>',methods=['delete'])
 def delete_bookinfo(book_id):
-    return_type = request.headers.get('return_type')
+    return_type = request.headers.get('Accept')
     bookinfo = BookinfoService.deleteBookinfo(book_id)
 
     url   = request.url

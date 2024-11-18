@@ -1,4 +1,4 @@
-from flask import jsonify,Response
+from flask import jsonify, Response, request
 from dicttoxml import dicttoxml
 from ripozo import ResourceBase
 
