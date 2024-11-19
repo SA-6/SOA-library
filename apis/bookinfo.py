@@ -40,9 +40,9 @@ def add_bookinfo():
     links = CommonResponse.create_links(rel='get',resource_name='bookinfo',request_url=url)
 
     if return_type == 'application/json':
-        return CommonResponse(200,message='获取成功',data=bookinfo,links=links).response_to_json()
+        return CommonResponse(200,message='书籍已添加',data=bookinfo,links=links).response_to_json()
     elif return_type == 'application/xml':
-        return CommonResponse(200,message='获取成功',data=bookinfo,links=links).response_to_xml()
+        return CommonResponse(200,message='书籍已添加',data=bookinfo,links=links).response_to_xml()
     
 # 修改数据部分
 @bookinfo_bp.route('bookinfo',methods=['put'])
@@ -54,9 +54,9 @@ def update_bookinfo():
     url   = request.url
     links = CommonResponse.create_links(rel='get',resource_name='bookinfo',request_url=url)
     if return_type == 'application/json':
-        return CommonResponse(200,message='获取成功',data=bookinfo,links=links).response_to_json()
+        return CommonResponse(200,message='书籍信息修改成功',data=bookinfo,links=links).response_to_json()
     elif return_type == 'application/xml':
-        return CommonResponse(200,message='获取成功',data=bookinfo,links=links).response_to_xml()
+        return CommonResponse(200,message='书籍信息修改成功',data=bookinfo,links=links).response_to_xml()
     
 # 删除数据部分
 @bookinfo_bp.route('bookinfo/<book_id>',methods=['delete'])
@@ -67,6 +67,6 @@ def delete_bookinfo(book_id):
     url   = request.url
     links = CommonResponse.create_links(rel='get',resource_name='bookinfo',request_url=url)
     if return_type == 'application/json':
-        return CommonResponse(200,message='获取成功',data=bookinfo,links=links).response_to_json()
+        return CommonResponse(200,message='书籍信息删除成功',data=bookinfo,links=links).response_to_json()
     elif return_type == 'application/xml':
-        return CommonResponse(200,message='获取成功',data=bookinfo,links=links).response_to_xml()
+        return CommonResponse(200,message='书籍信息删除成功',data=bookinfo,links=links).response_to_xml()
