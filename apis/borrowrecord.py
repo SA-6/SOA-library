@@ -8,7 +8,6 @@ from utils.commonResponse import CommonResponse
 borrow_records_bp = Blueprint('borrow_records', __name__)
 
 
-
 # 新增一条借阅记录
 @borrow_records_bp.route('/', methods=['POST'])
 def add_borrow_record():
@@ -22,38 +21,77 @@ def add_borrow_record():
     )
     db.session.add(new_record)
     db.session.commit()
-    return CommonResponse.success(message="借阅记录已添加")
 
+    return_type = request.headers.get('Accept')
+    url = request.url
+    links = CommonResponse.create_links(rel='post', resource_name='borrow_records', request_url=url)
+    if return_type == 'application/json':
+        return CommonResponse(200, message='借阅记录已添加', data=new_record.to_dict(), links=links).success()
+    elif return_type == 'application/xml':
+        return CommonResponse(200, message='借阅记录已添加', data=new_record.to_dict(), links=links).success()
 
 # 删除借阅记录
 @borrow_records_bp.route('/<string:record_id>', methods=['DELETE'])
 def delete_borrow_record(record_id):
     record = BorrowRecord.query.get(record_id)
+
+    return_type = request.headers.get('Accept')
+    url = request.url
+    links = CommonResponse.create_links(rel='get', resource_name='borrow_records', request_url=url)
+
     if not record:
-        return CommonResponse.error(message="未找到该借阅记录")
+        if return_type == 'application/json':
+            return CommonResponse(links=links).error(message='未找到借阅记录').response_to_json()
+        elif return_type == 'application/xml':
+            return CommonResponse(links=links).error(message='未找到借阅记录').response_to_xml()
     db.session.delete(record)
     db.session.commit()
-    return CommonResponse.success(message="借阅记录已删除")
+
+    if return_type == 'application/json':
+        return CommonResponse(200, message='借阅记录已删除', links=links).response_to_json()
+    elif return_type == 'application/xml':
+        return CommonResponse(200, message='借阅记录已删除', links=links).response_to_xml()
 
 
 # 查询所有借阅记录
 @borrow_records_bp.route('/', methods=['GET'])
 def get_all_borrow_records():
     records = BorrowRecord.query.all()
+    print(records)
     result = [record.to_dict() for record in records]
-    return CommonResponse.success(data=result)
+
+    return_type = request.headers.get('Accept')
+    url = request.url
+    links = CommonResponse.create_links(rel='get', resource_name='borrow_records', request_url=url)
+
+    if return_type == 'application/json':
+        return CommonResponse(200, message='获取成功', data=result, links=links).response_to_json()
+    elif return_type == 'application/xml':
+        return CommonResponse(200, message='获取成功', data=result, links=links).response_to_xml()
 
 
 # 更新借阅记录
 @borrow_records_bp.route('/<string:record_id>', methods=['PUT'])
 def update_borrow_record(record_id):
     record = BorrowRecord.query.get(record_id)
+
+    return_type = request.headers.get('Accept')
+    url = request.url
+    links = CommonResponse.create_links(rel='put', resource_name='borrow_records', request_url=url)
+
     if not record:
-        return CommonResponse.error(message="未找到该借阅记录")
+        if return_type == 'application/json':
+            return CommonResponse(error=True, status=404, message='未找到借阅记录', links=links).error()
+        elif return_type == 'application/xml':
+            return CommonResponse(error=True, status=404, message='未找到借阅记录', links=links).error()
     data = request.json
     record.user_id = data.get('user_id', record.user_id)
     record.book_id = data.get('book_id', record.book_id)
     record.borrow_date = data.get('borrow_date', record.borrow_date)
     record.due_date = data.get('due_date', record.due_date)
     db.session.commit()
-    return CommonResponse.success(message="借阅记录已更新")
+
+    if return_type == 'application/json':
+        return CommonResponse(200, message='借阅记录已更新', data=record.to_dict(), links=links).success()
+    elif return_type == 'application/xml':
+        return CommonResponse(200, message='借阅记录已更新', data=record.to_dict(), links=links).success()

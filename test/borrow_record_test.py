@@ -112,8 +112,8 @@ def test_update_borrow_record():
         assert record1 is not None
         assert record1.user_id == '8209220223'
         assert record1.book_id == '10008'
-        assert record1.borrow_date == datetime.strptime('2023-11-01', '%Y-%m-%d').date()
-        assert record1.due_date == datetime.strptime('2023-11-28', '%Y-%m-%d').date()
+        assert record1.borrow_date == datetime.strptime('2023-11-01', '%Y-%m-%d')
+        assert record1.due_date == datetime.strptime('2023-11-28', '%Y-%m-%d')
 
 # 测试删除借阅记录
 def test_delete_borrow_record():
